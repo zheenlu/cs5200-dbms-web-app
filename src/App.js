@@ -6,10 +6,11 @@ import Login from './users/Login'
 import Account from './users/Account'
 import Home from './home';
 import SetNewGoals from './goal/SetNewGoals';
-import GoalsCompleted from './goal/GoalsCompleted';
-import GoalsInProgress from './goal/GoalsInProgress';
-import GoalsInStore from './goal/GoalsInStore';
+// import GoalsCompleted from './goal/GoalsCompleted';
+// import GoalsInProgress from './goal/GoalsInProgress';
+// import GoalsInStore from './goal/GoalsInStore';
 import StudySession from './goal/StudySession';
+import GoalsList from './goal/GoalsList';
 import { AuthProvider } from './users/AuthContext';
 
 
@@ -26,9 +27,10 @@ function App() {
               <Route path="/account" element={<Account />} />
               <Route path="/home" element={<Home />} />
               <Route path="/set-new-goals" element={<SetNewGoals />} />
-              <Route path="/goals-in-progress" element={<GoalsInProgress />} />
+              <Route path="/goals-list" element={<GoalsList />}></Route>
+              {/* <Route path="/goals-in-progress" element={<GoalsInProgress />} />
               <Route path="/goals-completed" element={<GoalsCompleted />} />
-              <Route path="/goals-in-store" element={<GoalsInStore />} />
+              <Route path="/goals-in-store" element={<GoalsInStore />} /> */}
               <Route path="/study-session" element={<StudySession />} />
             </Routes>
           </div>

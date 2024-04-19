@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import * as client from './client';
 import { useAuth } from '../users/AuthContext';
+import { Link } from 'react-router-dom';
 
 function SetNewGoals() {
     const { user } = useAuth();  // Get user from context
@@ -10,6 +11,7 @@ function SetNewGoals() {
     const [endDate, setEndDate] = useState('');
     const [status, setStatus] = useState('Not Started');
     const [category, setCategory] = useState('Health & Wellness');
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,6 +103,7 @@ function SetNewGoals() {
                 </label>
                 <button type="submit">Create Goal</button>
             </form>
+            <Link to="/home" className="button">Go back</Link>
         </div>
     );
 }

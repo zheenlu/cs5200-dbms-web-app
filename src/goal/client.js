@@ -21,3 +21,23 @@ export const getAllGoals = async (userId) => {
         throw new Error('Failed to fetch goals');
     }
 };
+
+export const deleteGoal = async (userId, goalId) => {
+    try {
+        const response = await axios.delete(`${API_BASE}/api/users/${userId}/goals/${goalId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting goal:', error);
+        throw new Error('Failed to delete goal');
+    }
+};
+
+export const updateGoal = async (userId, goalId, goalData) => {
+    try {
+        const response = await axios.put(`${API_BASE}/api/users/${userId}/goals/${goalId}`, goalData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating goal:', error);
+        throw new Error('Failed to update goal');
+    }
+};
