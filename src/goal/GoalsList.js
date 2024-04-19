@@ -4,7 +4,7 @@ import { useAuth } from '../users/AuthContext';
 import { Link } from 'react-router-dom';
 
 function GoalsList() {
-    const { user } = useAuth();  // Assuming user object contains userId
+    const { user } = useAuth();
     const [goals, setGoals] = useState([]);
     const [editingGoalId, setEditingGoalId] = useState(null);
     const [editFormData, setEditFormData] = useState({});
@@ -22,32 +22,47 @@ function GoalsList() {
 
     const handleEdit = (goal) => {
         setEditingGoalId(goal.id);
-        setEditFormData(goal);
+        setEditFormData({
+            name: goal.name,
+            description: goal.description,
+            start_date: goal.start_date,
+            end_date: goal.end_date,
+            status: goal.status,
+            category_id: goal.category_id,
+            resource_id: goal.resource_id // Assuming resource_id is already part of the goal data
+        });
     };
 
     const handleFormChange = (event) => {
-        setEditFormData({
-            ...editFormData,
-            [event.target.name]: event.target.value
-        });
+        const { name, value } = event.target;
+        setEditFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
     
+
+    
+
     const handleUpdate = async (e) => {
         e.preventDefault();
-        // Simple validation example
-        if (!editFormData.name || !editFormData.description || !editFormData.end_date || !editFormData.status || !editFormData.category_id) {
-            alert("All fields must be filled out.");
-            return;
-        }
+        const formData = {
+            name: editFormData.name || null,
+            description: editFormData.description || null,
+            start_date: editFormData.start_date || null,
+            end_date: editFormData.end_date || null,
+            status: editFormData.status || null,
+            category_id: editFormData.category_id || null,
+            resource_id: editFormData.resource_id || null,
+        };
         try {
-            await updateGoal(user.id, editingGoalId, editFormData);
+            await updateGoal(user.id, editingGoalId, formData);
             setEditingGoalId(null);
-            fetchGoals();
+            fetchGoals(); // Refresh goals list
         } catch (error) {
             console.error('Failed to update goal:', error);
         }
     };
-    
     
 
     return (
@@ -57,36 +72,22 @@ function GoalsList() {
                 <div key={goal.id}>
                     {editingGoalId === goal.id ? (
                         <form onSubmit={handleUpdate}>
-                            <input
-                                type="text"
-                                name="name"
-                                value={editFormData.name}
-                                onChange={handleFormChange}
-                                required
-                            />
-                            <textarea
-                                name="description"
-                                value={editFormData.description}
-                                onChange={handleFormChange}
-                                required
-                            />
-                            <input
-                                type="date"
-                                name="end_date"
-                                value={editFormData.end_date}
-                                onChange={handleFormChange}
-                                required
-                            />
-                            <select
-                                name="status"
-                                value={editFormData.status}
-                                onChange={handleFormChange}
-                                required
-                            >
+                            <input type="text" name="name" value={editFormData.name} onChange={handleFormChange} required />
+                            <textarea name="description" value={editFormData.description} onChange={handleFormChange} required />
+                            <input type="date" name="start_date" value={editFormData.start_date} onChange={handleFormChange} required />
+                            <input type="date" name="end_date" value={editFormData.end_date} onChange={handleFormChange} required />
+                            <select name="status" value={editFormData.status} onChange={handleFormChange} required>
                                 <option value="Not Started">Not Started</option>
                                 <option value="In Progress">In Progress</option>
                                 <option value="Completed">Completed</option>
                             </select>
+                            <input
+                                type="url"
+                                name="resource_link"
+                                value={editFormData.resource_link || ''}
+                                onChange={handleFormChange}
+                            />
+    
                             <button type="submit">Update</button>
                         </form>
                     ) : (
