@@ -42,3 +42,22 @@ export const updateGoal = async (userId, goalId, goalData) => {
     }
 };
 
+export const fetchGoalsWithDaysLeft = async (userId) => {
+    try {
+        const response = await axios.get(`${API_BASE}/api/users/${userId}/progress-reminders`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching goals with days left:', error);
+        throw new Error('Failed to fetch goals with days left');
+    }
+};
+
+export const addStudySession = async (userId, sessionData) => {
+    const response = await axios.post(`${API_BASE}/api/users/${userId}/study-sessions`, sessionData);
+    return response.data;
+};
+
+export const fetchStudySessions = async (userId) => {
+    const response = await axios.get(`${API_BASE}/api/users/${userId}/study-sessions`);
+    return response.data;
+};

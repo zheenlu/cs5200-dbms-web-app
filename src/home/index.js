@@ -14,6 +14,8 @@ function Home() {
             <div className="auto-form-container">
                 <Link to="/set-new-goals" className="button">Set New Goals</Link>
                 <Link to="/goals-list" className="button">Goals List</Link>
+                <Link to="/progress-reminder" className="button">Progress Reminder</Link>
+                <Link to="/study-session" className="button">Study Session</Link>
                 {/* <Link to="/goals-completed" className="button">Goals Completed</Link>
                 <Link to="/goals-in-progress" className="button">Goals in Progress</Link>
                 <Link to="/goals-in-store" className="button">Goals in Store</Link>
