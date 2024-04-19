@@ -29,7 +29,7 @@ function GoalsList() {
             end_date: goal.end_date,
             status: goal.status,
             category_id: goal.category_id,
-            resource_id: goal.resource_id // Assuming resource_id is already part of the goal data
+            resource_id: goal.resource_id 
         });
     };
 
@@ -40,8 +40,6 @@ function GoalsList() {
             [name]: value
         }));
     };
-    
-
     
 
     const handleUpdate = async (e) => {
@@ -58,9 +56,18 @@ function GoalsList() {
         try {
             await updateGoal(user.id, editingGoalId, formData);
             setEditingGoalId(null);
-            fetchGoals(); // Refresh goals list
+            fetchGoals();
         } catch (error) {
             console.error('Failed to update goal:', error);
+        }
+    };
+
+    const handleDeleteGoal = async (goalId) => {
+        try {
+            await deleteGoal(user.id, goalId);
+            fetchGoals();  // Refresh the list after deleting
+        } catch (error) {
+            console.error("Error deleting goal:", error);
         }
     };
     
@@ -92,6 +99,7 @@ function GoalsList() {
                         </form>
                     ) : (
                         <div>
+                            <button onClick={() => handleDeleteGoal(goal.id)}>Delete</button>
                             {goal.name} - <button onClick={() => handleEdit(goal)}>Edit</button>
                         </div>
                     )}

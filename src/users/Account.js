@@ -27,8 +27,8 @@ function Account() {
     const calculateDays = (registrationDate) => {
         const now = new Date();
         const registered = new Date(registrationDate);
-        const difference = now - registered; // Difference in milliseconds
-        return Math.floor(difference / (1000 * 60 * 60 * 24)); // Convert to days
+        const difference = now - registered; 
+        return Math.floor(difference / (1000 * 60 * 60 * 24)); 
     };
 
     const changePassword = async () => {
@@ -37,7 +37,7 @@ function Account() {
 			setMessage('Password changed successfully. You will be signed out.');
 			setTimeout(() => {
 				signout();
-			}, 3000);  // Delay for user to read message
+			}, 3000); 
 		} catch (error) {
 			setMessage('Failed to change password. Please try again.');
 		}

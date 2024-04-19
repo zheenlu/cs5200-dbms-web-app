@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import * as client from './client';
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from './AuthContext';  // Ensure AuthContext is correctly imported
+import { useAuth } from './AuthContext';  
 
 function Login() {
-    const { login } = useAuth();  // This 'login' sets user in context
+    const { login } = useAuth(); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ function Login() {
             const credentials = { email, password };
             const response = await client.login(credentials);
             if (response.user && response.user.length > 0) {
-                login(response.user[0]); // Set user data in context, make sure to grab the first element
+                login(response.user[0]); 
                 navigate("/home");
             } else {
                 throw new Error('User data is empty');
@@ -30,7 +30,7 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await handleLogin();  // Call handleLogin here, not login
+        await handleLogin(); 
     };
 
     return (

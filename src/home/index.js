@@ -16,12 +16,6 @@ function Home() {
                 <Link to="/goals-list" className="button">Goals List</Link>
                 <Link to="/progress-reminder" className="button">Progress Reminder</Link>
                 <Link to="/study-session" className="button">Study Session</Link>
-                {/* <Link to="/goals-completed" className="button">Goals Completed</Link>
-                <Link to="/goals-in-progress" className="button">Goals in Progress</Link>
-                <Link to="/goals-in-store" className="button">Goals in Store</Link>
-                <Link to="/study-session" className="button">Study Session</Link>
-                <Link to="/resource" className="button">Resources</Link> */}
-                {/* <Link to="/account" className="button">Account</Link> */}
                 <button onClick={signout} className="hover-pointer">Sign out</button>
                 
             </div>

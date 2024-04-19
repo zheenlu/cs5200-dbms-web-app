@@ -4,7 +4,7 @@ import { useAuth } from '../users/AuthContext';
 import { Link } from 'react-router-dom';
 
 function SetNewGoals() {
-    const { user } = useAuth();  // Get user from context
+    const { user } = useAuth(); 
     const [goalName, setGoalName] = useState('');
     const [goalDescription, setGoalDescription] = useState('');
     const [learningResource, setLearningResource] = useState('');
@@ -22,7 +22,7 @@ function SetNewGoals() {
         const newGoal = {
             name: goalName,
             description: goalDescription,
-            learningResource: learningResource, // Ensure this is correctly named and passed
+            learningResource: learningResource, 
             endDate: endDate,
             status: status,
             category: category
@@ -30,7 +30,7 @@ function SetNewGoals() {
         console.log('User ID:', user.id);
         console.log('New Goal:', newGoal);
         try {
-            const response = await client.setNewGoal(user.id, newGoal); // Adjusted to pass userId separately
+            const response = await client.setNewGoal(user.id, newGoal);
             console.log('Goal created successfully:', response);
         } catch (error) {
             console.error('Failed to create goal:', error);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { fetchGoalsWithDaysLeft } from './client';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../users/AuthContext'; // Make sure this import path is correct
+import { useAuth } from '../users/AuthContext'; 
 
 function ProgressReminder() {
     const [goals, setGoals] = useState([]);
-    const { user } = useAuth(); // Assuming user contains the userId
+    const { user } = useAuth();
 
     useEffect(() => {
         async function loadGoals() {
