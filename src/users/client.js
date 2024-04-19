@@ -39,14 +39,19 @@ export const login = async (credentials) => {
 	}
 };
 
-export const account = async () => {
-	try {
-		const response = await axios.post(`${USER_API}/account`);
-		return response.data;
-	} catch (error) {
-		console.log(error);
-	}
-}
+export const account = async (userId) => {
+    try {
+        const response = await axios.get(`${USER_API}/account/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching account:', error);
+        throw new Error('Failed to fetch account details');
+    }
+};
 
 export const signout = async () => {
 	try {

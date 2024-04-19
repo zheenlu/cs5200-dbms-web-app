@@ -1,27 +1,39 @@
 import React, { useState } from 'react';
+import * as client from './client';
+import { useAuth } from '../users/AuthContext';
 
 function SetNewGoals() {
-    // State to keep track of the goal's attributes
+    const { user } = useAuth();  // Get user from context
     const [goalName, setGoalName] = useState('');
     const [goalDescription, setGoalDescription] = useState('');
     const [learningResource, setLearningResource] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [status, setStatus] = useState('Not Started'); // Default status
+    const [status, setStatus] = useState('Not Started');
     const [category, setCategory] = useState('Health & Wellness');
-    // Function to handle form submission
-    const handleSubmit = (e) => {
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!user || !user.id) {
+            alert("You are not logged in or user ID is missing!");
+            return;
+        }
         const newGoal = {
-            goalName,
-            goalDescription,
-            learningResource,
+            name: goalName,  // 'goalName' changed to 'name'
+            description: goalDescription,
+            learningResource, // Ensure this has a corresponding column or is handled correctly in the backend
             endDate,
             status,
-            category
+            category // Ensure 'category' is handled as 'category_id' in the backend or adjust accordingly
         };
-        // Handle the new goal object (send to API or state management)
-        console.log(newGoal);
-    }
+        console.log('User ID:', user.id);
+        console.log('New Goal:', newGoal);
+        try {
+            const response = await client.setNewGoal(user.id, newGoal); // Adjusted to pass userId separately
+            console.log('Goal created successfully:', response);
+        } catch (error) {
+            console.error('Failed to create goal:', error);
+        }
+    };
 
     return (
         <div>
@@ -79,12 +91,12 @@ function SetNewGoals() {
                         onChange={(e) => setCategory(e.target.value)}
                         required
                     >
-                    <option value="Health & Wellness">Health & Wellness</option>
-                    <option value="Personal Development">Personal Development</option>
-                    <option value="Career & Professional">Career & Professional</option>
-                    <option value="Education">Education</option>
-                    <option value="Hobbies & Leisure">Hobbies & Leisure</option>
-                    <option value="Social & Family">Social & Family</option>
+                        <option value="Health & Wellness">Health & Wellness</option>
+                        <option value="Personal Development">Personal Development</option>
+                        <option value="Career & Professional">Career & Professional</option>
+                        <option value="Education">Education</option>
+                        <option value="Hobbies & Leisure">Hobbies & Leisure</option>
+                        <option value="Social & Family">Social & Family</option>
                     </select>
                 </label>
                 <button type="submit">Create Goal</button>

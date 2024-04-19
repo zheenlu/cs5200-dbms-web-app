@@ -7,6 +7,7 @@ function Account() {
     const [newPassword, setNewPassword] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
+    const [userId, setUserId] = useState(localStorage.getItem('userId'));
 
     const fetchUser = async () => {
         try {
@@ -14,7 +15,8 @@ function Account() {
             setUser(user);
             setMessage(`You're here with your goals for ${calculateDays(user.registrationDate)} days.`);
         } catch (error) {
-            navigate("/login");
+            // navigate("/login");
+			console.log(error);
         }
     };
 
