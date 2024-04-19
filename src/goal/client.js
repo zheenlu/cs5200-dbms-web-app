@@ -41,3 +41,4 @@ export const updateGoal = async (userId, goalId, goalData) => {
         throw new Error('Failed to update goal');
     }
 };
+

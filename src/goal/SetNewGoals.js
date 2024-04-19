@@ -20,12 +20,12 @@ function SetNewGoals() {
             return;
         }
         const newGoal = {
-            name: goalName,  // 'goalName' changed to 'name'
+            name: goalName,
             description: goalDescription,
-            learningResource, // Ensure this has a corresponding column or is handled correctly in the backend
-            endDate,
-            status,
-            category // Ensure 'category' is handled as 'category_id' in the backend or adjust accordingly
+            learningResource: learningResource, // Ensure this is correctly named and passed
+            endDate: endDate,
+            status: status,
+            category: category
         };
         console.log('User ID:', user.id);
         console.log('New Goal:', newGoal);

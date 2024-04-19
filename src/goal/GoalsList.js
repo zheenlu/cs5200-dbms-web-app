@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getAllGoals, deleteGoal } from './client';
-import { useAuth } from '../users/AuthContext';  // Make sure your Auth context provides userId
+import { getAllGoals, deleteGoal, updateGoal } from './client';
+import { useAuth } from '../users/AuthContext';
 import { Link } from 'react-router-dom';
 
 function GoalsList() {
     const { user } = useAuth();  // Assuming user object contains userId
     const [goals, setGoals] = useState([]);
+    const [editingGoalId, setEditingGoalId] = useState(null);
+    const [editFormData, setEditFormData] = useState({});
 
     useEffect(() => {
         if (user && user.id) {
@@ -14,33 +16,86 @@ function GoalsList() {
     }, [user]);
 
     const fetchGoals = async () => {
-        try {
-            const fetchedGoals = await getAllGoals(user.id);
-            setGoals(fetchedGoals);
-        } catch (error) {
-            console.error("Error fetching goals:", error);
-        }
+        const fetchedGoals = await getAllGoals(user.id);
+        setGoals(fetchedGoals);
     };
 
-    const handleDeleteGoal = async (goalId) => {
+    const handleEdit = (goal) => {
+        setEditingGoalId(goal.id);
+        setEditFormData(goal);
+    };
+
+    const handleFormChange = (event) => {
+        setEditFormData({
+            ...editFormData,
+            [event.target.name]: event.target.value
+        });
+    };
+    
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        // Simple validation example
+        if (!editFormData.name || !editFormData.description || !editFormData.end_date || !editFormData.status || !editFormData.category_id) {
+            alert("All fields must be filled out.");
+            return;
+        }
         try {
-            await deleteGoal(user.id, goalId);
-            fetchGoals();  // Refresh the list after deleting
+            await updateGoal(user.id, editingGoalId, editFormData);
+            setEditingGoalId(null);
+            fetchGoals();
         } catch (error) {
-            console.error("Error deleting goal:", error);
+            console.error('Failed to update goal:', error);
         }
     };
+    
+    
 
     return (
         <div>
             <h1>Your Goals</h1>
-            <ul>
-                {goals.map((goal) => (
-                    <li key={goal.id}>
-                        {goal.name} - <button onClick={() => handleDeleteGoal(goal.id)}>Delete</button>
-                    </li>
-                ))}
-            </ul>
+            {goals.map((goal) => (
+                <div key={goal.id}>
+                    {editingGoalId === goal.id ? (
+                        <form onSubmit={handleUpdate}>
+                            <input
+                                type="text"
+                                name="name"
+                                value={editFormData.name}
+                                onChange={handleFormChange}
+                                required
+                            />
+                            <textarea
+                                name="description"
+                                value={editFormData.description}
+                                onChange={handleFormChange}
+                                required
+                            />
+                            <input
+                                type="date"
+                                name="end_date"
+                                value={editFormData.end_date}
+                                onChange={handleFormChange}
+                                required
+                            />
+                            <select
+                                name="status"
+                                value={editFormData.status}
+                                onChange={handleFormChange}
+                                required
+                            >
+                                <option value="Not Started">Not Started</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                            <button type="submit">Update</button>
+                        </form>
+                    ) : (
+                        <div>
+                            {goal.name} - <button onClick={() => handleEdit(goal)}>Edit</button>
+                        </div>
+                    )}
+                </div>
+            ))}
             <Link to="/home" className="button">Go back</Link>
         </div>
     );
